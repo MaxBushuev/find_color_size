@@ -60,7 +60,7 @@ int main()
 		{
 			if (boundRect[i].height > lengthMin && boundRect[i].width > lengthMin&& boundRect[i].height < lengthMax && boundRect[i].width < lengthMax && ratioMinD < boundRect[i].height / boundRect[i].width < ratioMaxD)
 			{
-				drawContours(findRed, contours_poly, (int)i, Scalar(0, 255, 0), 1, 8, vector<Vec4i>(), 0, Point());
+				drawContours(findColor, contours_poly, (int)i, Scalar(0, 255, 0), 1, 8, vector<Vec4i>(), 0, Point());
 				rectangle(img, boundRect[i].tl(), boundRect[i].br(), Scalar(0, 255, 0), 2, 8, 0);
 			}
 		}
