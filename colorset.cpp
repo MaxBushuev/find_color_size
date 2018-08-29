@@ -4,7 +4,7 @@ using namespace cv;
 using std::vector;
 int main()
 {
-	Mat img;// = imread("Flying Vinni.jpg");
+	Mat img;
 	Mat hsv;
 	Mat poiskred;
 
