@@ -1,24 +1,12 @@
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <vector>
-#include <opencv2/video.hpp>
-#include <opencv2/objdetect.hpp>
-#include <opencv2/core.hpp>
-#include <stdio.h>
-#include <iostream>
 using namespace cv;
-using std::cout;
 using std::vector;
-using std::endl;
 int main()
 {
 	Mat img;// = imread("Flying Vinni.jpg");
 	Mat hsv;
 	Mat poiskred;
-
-	
 
 	int findhred=0;
 	int findsred=0;
