@@ -6,23 +6,23 @@ int main()
 {
 	Mat img;
 	Mat hsv;
-	Mat poiskred;
+	Mat findColor;
 
-	int findhred=0;
-	int findsred=0;
-	int findvred=0;
-	int findhblue=0;
-	int findsblue=0;
-	int findvblue=0;
+	int findHMin=0;
+	int findSMin=0;
+	int findVMin=0;
+	int findHMax=0;
+	int findSMax=0;
+	int findVMax=0;
 
-	int lengthmin=0;
-	int lengthmax=0;
+	int lengthMin=0;
+	int lengthMax=0;
 
-	int ratiomin = 50;
-	int ratiomax = 50;
+	int ratioMin = 50;
+	int ratioMax = 50;
 
-	float ratiomind;
-	float ratiomaxd;
+	float ratioMinD;
+	float ratioMaxD;
 	VideoCapture cap(0);
 	
 	while (true)
@@ -30,24 +30,24 @@ int main()
 
 		cap >> img;
 		cvtColor(img, hsv, COLOR_RGB2HSV);
-		createTrackbar("Hmin", "Color", &findhred, 180);
-		createTrackbar("Smin", "Color", &findsred, 255);
-		createTrackbar("Vmin", "Color", &findvred, 255);
-		createTrackbar("Hmax", "Color", &findhblue, 180);
-		createTrackbar("Smax", "Color", &findsblue, 255);
-		createTrackbar("Vmax", "Color", &findvblue, 255);
+		createTrackbar("Hmin", "Color", &findHMin, 180);
+		createTrackbar("Smin", "Color", &findSMin, 255);
+		createTrackbar("Vmin", "Color", &findVMin, 255);
+		createTrackbar("Hmax", "Color", &findHMax, 180);
+		createTrackbar("Smax", "Color", &findSMax, 255);
+		createTrackbar("Vmax", "Color", &findVMax, 255);
 
-		createTrackbar("Lengthmin", "Result", &lengthmin, 1000);
-		createTrackbar("sootmin", "Result", &sootmin, 180);
-		createTrackbar("Lenghtmax", "Result", &lengthmax, 1000);
-		createTrackbar("sootmax", "Result", &sootmax, 180);
-		ratiomind = ratiomin / 100;
-		ratiomaxd = ratiomax / 100;
-		inRange(hsv, Scalar(findhred, findsred, findvred), Scalar(findhblue, findsblue, findvblue), poiskred);
-		imshow("Red", poiskred);
+		createTrackbar("LengthMin", "Size", &lengthMin, 1000);
+		createTrackbar("RatioMin", "Size", &ratioMin, 180);
+		createTrackbar("LenghtMax", "Size", &lengthMax, 1000);
+		createTrackbar("RatioMax", "Size", &ratioMax, 180);
+		ratioMinD = ratioMin / 100;
+		ratioMaxD = ratioMax / 100;
+		inRange(hsv, Scalar(findHMin, findSMin, findVRed), Scalar(findHMax, findSMax, findVMax), findColor);
+		imshow("Color", findColor);
 		vector<vector<Point>> contours;
 		
-		findContours(poiskred, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE, Point(0,0));
+		findContours(findColor, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE, Point(0,0));
 		vector<vector<Point> > contours_poly(contours.size() + 1);
 		vector<Rect> boundRect(contours.size());
 		for (size_t i = 0; i < contours.size(); i++)
@@ -58,13 +58,13 @@ int main()
 		}
 		for (size_t i = 0; i < contours.size(); i++)
 		{
-			if (boundRect[i].height > lengthmin && boundRect[i].width > lengthmin&& boundRect[i].height < lengthmax && boundRect[i].width < lengthmax && sootmind < boundRect[i].height / boundRect[i].width < sootmaxd)
+			if (boundRect[i].height > lengthMin && boundRect[i].width > lengthMin&& boundRect[i].height < lengthMax && boundRect[i].width < lengthMax && ratioMinD < boundRect[i].height / boundRect[i].width < ratioMaxD)
 			{
 				drawContours(findRed, contours_poly, (int)i, Scalar(0, 255, 0), 1, 8, vector<Vec4i>(), 0, Point());
 				rectangle(img, boundRect[i].tl(), boundRect[i].br(), Scalar(0, 255, 0), 2, 8, 0);
 			}
 		}
-		imshow("Result", findRed);
+		imshow("Size", findColor);
 		imshow("Final", img);
 		waitKey(1);
 	}
